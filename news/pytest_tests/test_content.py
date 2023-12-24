@@ -1,11 +1,9 @@
-import pytest
 from django.conf import settings
 from django.urls import reverse
 
 HOME_URL = reverse('news:home')
 
 
-@pytest.mark.django_db
 def test_news_count(client, news_list):
     response = client.get(HOME_URL)
     object_list = response.context['object_list']
@@ -13,7 +11,6 @@ def test_news_count(client, news_list):
     assert news_count == settings.NEWS_COUNT_ON_HOME_PAGE
 
 
-@pytest.mark.django_db
 def test_news_order(client, news_list):
     response = client.get(HOME_URL)
     object_list = response.context['object_list']
@@ -22,7 +19,6 @@ def test_news_order(client, news_list):
     assert sorted_dates == all_dates
 
 
-@pytest.mark.django_db
 def test_comments_order(client, comment_list, news_with_comment_id):
     url = reverse('news:detail', args=news_with_comment_id)
     response = client.get(url)
@@ -32,14 +28,12 @@ def test_comments_order(client, comment_list, news_with_comment_id):
     assert all_comments[0].created < all_comments[1].created
 
 
-@pytest.mark.django_db
 def test_anonymous_client_has_no_form(client, news_with_comment_id):
     url = reverse('news:detail', args=news_with_comment_id)
     response = client.get(url)
     assert 'form' not in response.context
 
 
-@pytest.mark.django_db
 def test_authorized_client_has_form(admin_client, news_with_comment_id):
     url = reverse('news:detail', args=news_with_comment_id)
     response = admin_client.get(url)

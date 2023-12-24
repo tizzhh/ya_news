@@ -1,6 +1,5 @@
 from http import HTTPStatus
 
-import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertFormError, assertRedirects
 
@@ -8,7 +7,6 @@ from news.forms import BAD_WORDS, WARNING
 from news.models import Comment
 
 
-@pytest.mark.django_db
 def test_anonymous_user_cant_create_comment(
     client, news_id, comment_form_data
 ):

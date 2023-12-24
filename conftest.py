@@ -17,7 +17,7 @@ def author_client(author, client):
 
 
 @pytest.fixture
-def news():
+def news(author):
     news = News.objects.create(
         title='news title',
         text='news text',
@@ -26,7 +26,7 @@ def news():
 
 
 @pytest.fixture
-def news_list():
+def news_list(author):
     today = datetime.today()
     all_news = [
         News(
