@@ -72,3 +72,15 @@ def news_id(news):
 @pytest.fixture
 def news_with_comment_id(news, comment):
     return (news.pk,)
+
+
+@pytest.fixture
+def comment_id(comment):
+    return (comment.pk,)
+
+
+@pytest.fixture
+def comment_form_data():
+    return {
+        'text': 'new comment text'
+    }
