@@ -1,15 +1,15 @@
 # news/tests/test_content.py
 from datetime import datetime, timedelta
 
-from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.test import TestCase
+
 # Импортируем функцию reverse(), она понадобится для получения адреса страницы.
 from django.urls import reverse
 from django.utils import timezone
 
 from news.models import Comment, News
-
 
 User = get_user_model()
 
@@ -28,11 +28,11 @@ class TestHomePage(TestCase):
                 text='Просто текст.',
                 # Для каждой новости уменьшаем дату на index дней от today,
                 # где index - счётчик цикла.
-                date=today - timedelta(days=index)
+                date=today - timedelta(days=index),
             )
             for index in range(settings.NEWS_COUNT_ON_HOME_PAGE + 1)
         ]
-        News.objects.bulk_create(all_news) 
+        News.objects.bulk_create(all_news)
 
     def test_news_count(self):
         # Загружаем главную страницу.
@@ -57,7 +57,6 @@ class TestHomePage(TestCase):
 
 
 class TestDetailPage(TestCase):
-
     @classmethod
     def setUpTestData(cls):
         cls.news = News.objects.create(
@@ -72,7 +71,9 @@ class TestDetailPage(TestCase):
         for index in range(2):
             # Создаём объект и записываем его в переменную.
             comment = Comment.objects.create(
-                news=cls.news, author=cls.author, text=f'Tекст {index}',
+                news=cls.news,
+                author=cls.author,
+                text=f'Tекст {index}',
             )
             # Сразу после создания меняем время создания комментария.
             comment.created = now + timedelta(days=index)

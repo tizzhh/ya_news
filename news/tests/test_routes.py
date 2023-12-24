@@ -7,12 +7,10 @@ from django.urls import reverse
 
 from news.models import Comment, News
 
-
 User = get_user_model()
 
 
 class TestRoutes(TestCase):
-
     @classmethod
     def setUpTestData(cls):
         cls.news = News.objects.create(title='Заголовок', text='Текст')
@@ -20,9 +18,7 @@ class TestRoutes(TestCase):
         cls.reader = User.objects.create(username='Читатель простой')
 
         cls.comment = Comment.objects.create(
-            news=cls.news,
-            author=cls.author,
-            text='Текст комментария'
+            news=cls.news, author=cls.author, text='Текст комментария'
         )
 
     def test_pages_availability(self):
@@ -70,4 +66,4 @@ class TestRoutes(TestCase):
                 redirect_url = f'{login_url}?next={url}'
                 response = self.client.get(url)
                 # Проверяем, что редирект приведёт именно на указанную ссылку.
-                self.assertRedirects(response, redirect_url) 
+                self.assertRedirects(response, redirect_url)

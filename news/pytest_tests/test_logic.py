@@ -1,7 +1,9 @@
-import pytest
 from http import HTTPStatus
+
+import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertFormError, assertRedirects
+
 from news.forms import BAD_WORDS, WARNING
 from news.models import Comment
 
@@ -51,7 +53,9 @@ def test_user_cant_delete_comment_of_another_user(admin_client, comment_id):
     assert Comment.objects.count() == 1
 
 
-def test_author_can_edit_comment(author_client, comment_id, news_id, comment_form_data, comment):
+def test_author_can_edit_comment(
+    author_client, comment_id, news_id, comment_form_data, comment
+):
     url = reverse('news:edit', args=comment_id)
     response = author_client.post(url, data=comment_form_data)
     news_url = reverse('news:detail', args=news_id)
@@ -60,7 +64,11 @@ def test_author_can_edit_comment(author_client, comment_id, news_id, comment_for
     assert comment.text == comment_form_data['text']
 
 
-def test_user_cant_edit_comment_of_another_user(admin_client, comment_id, comment_form_data, comment):
+def test_user_cant_edit_comment_of_another_user(
+    admin_client, comment_id, comment_form_data, comment
+):
     url = reverse('news:edit', args=comment_id)
     response = admin_client.post(url, data=comment_form_data)
     assert response.status_code == HTTPStatus.NOT_FOUND
+    comment_from_db = Comment.objects.get()
+    assert comment_from_db.text == comment.text

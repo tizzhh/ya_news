@@ -1,8 +1,9 @@
 # news/tests/test_trial.py
+import unittest
+
 from django.test import TestCase
 
 from news.models import News
-import unittest
 
 
 class TestNews(TestCase):
